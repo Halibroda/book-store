@@ -1,5 +1,17 @@
 package com.epam.rd.autocode.spring.project.model;
 
-public class Employee{
-    // TODO Place your code here
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDate;
+
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true, exclude = {"orders"})
+@Entity
+@Table(name = "employees")
+public class Employee extends User {
+
+    private String phone;
+
+    private LocalDate birthDate;
 }
