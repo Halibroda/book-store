@@ -5,6 +5,8 @@ import com.epam.rd.autocode.spring.project.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -18,6 +20,13 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping("/client/me")
+    public List<OrderDTO> getMyOrders(Authentication auth) {
+        return orderService.getOrdersByClient(auth.getName());
+    }
+
+    @PreAuthorize("hasRole('EMPLOYEE') or #email == authentication.name")
     @GetMapping("/client/{email}")
     public List<OrderDTO> getOrdersByClient(@PathVariable String email) {
         return orderService.getOrdersByClient(email);
