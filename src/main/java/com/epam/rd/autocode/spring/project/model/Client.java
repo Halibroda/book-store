@@ -2,11 +2,15 @@ package com.epam.rd.autocode.spring.project.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.math.BigDecimal;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true, exclude = {"orders"})
+@ToString(callSuper = true)
 @Entity
 @Table(name = "clients")
 public class Client extends User {
