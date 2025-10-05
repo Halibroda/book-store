@@ -26,6 +26,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable());
+        http.cors(c -> {});
         http.authorizeHttpRequests(reg -> reg
             .requestMatchers(HttpMethod.GET, "/api/books/**").permitAll()
             .requestMatchers("/api/books/**").hasRole("EMPLOYEE")
