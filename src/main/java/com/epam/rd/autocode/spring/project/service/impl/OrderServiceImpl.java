@@ -95,4 +95,15 @@ public class OrderServiceImpl implements OrderService {
         Order saved = orderRepository.save(order);
         return mapper.map(saved, OrderDTO.class);
     }
+
+    @Override
+    public OrderDTO confirmOrder(Long orderId, String employeeEmail) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new NotFoundException("Order not found: " + orderId));
+        Employee employee = employeeRepository.findByEmail(employeeEmail)
+            .orElseThrow(() -> new NotFoundException("Employee not found: " + employeeEmail));
+        order.setEmployee(employee);
+        Order saved = orderRepository.save(order);
+        return mapper.map(saved, OrderDTO.class);
+    }
 }

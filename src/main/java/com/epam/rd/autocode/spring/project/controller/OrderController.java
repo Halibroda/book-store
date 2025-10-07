@@ -42,4 +42,11 @@ public class OrderController {
     public OrderDTO addOrder(@Valid @RequestBody OrderDTO dto) {
         return orderService.addOrder(dto);
     }
+
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    @PostMapping("/{id}/confirm")
+    public OrderDTO confirm(@PathVariable Long id, Authentication auth) {
+        return orderService.confirmOrder(id, auth.getName());
+    }
+
 }
