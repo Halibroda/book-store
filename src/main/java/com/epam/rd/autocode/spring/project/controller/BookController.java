@@ -1,11 +1,16 @@
 package com.epam.rd.autocode.spring.project.controller;
 
 import com.epam.rd.autocode.spring.project.dto.BookDTO;
+import com.epam.rd.autocode.spring.project.model.enums.AgeGroup;
+import com.epam.rd.autocode.spring.project.model.enums.Language;
 import com.epam.rd.autocode.spring.project.service.BookService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -21,6 +26,17 @@ public class BookController {
     @GetMapping
     public List<BookDTO> getAllBooks() {
         return bookService.getAllBooks();
+    }
+
+    @GetMapping("/page")
+    public Page<BookDTO> pageBooks(@RequestParam(required = false) String genre,
+                                   @RequestParam(required = false) Language language,
+                                   @RequestParam(required = false) AgeGroup ageGroup,
+                                   @RequestParam(required = false) BigDecimal minPrice,
+                                   @RequestParam(required = false) BigDecimal maxPrice,
+                                   @RequestParam(required = false, name = "q") String q,
+                                   Pageable pageable) {
+        return bookService.findBooks(genre, language, ageGroup, minPrice, maxPrice, q, pageable);
     }
 
     @GetMapping("/{name}")
