@@ -1,0 +1,16 @@
+<th:block th:replace="layout :: body">
+    <section>
+        <h1 th:text="#{login.title}">Sign in</h1>
+        <form th:action="@{/login}" method="post">
+            <label>
+                <span th:text="#{login.email}">Email</span>
+                <input type="text" name="username"/>
+            </label>
+            <label>
+                <span th:text="#{login.password}">Password</span>
+                <input type="password" name="password"/>
+            </label>
+            <button type="submit" th:text="#{login.submit}">Sign in</button>
+        </form>
+    </section>
+</th:block>

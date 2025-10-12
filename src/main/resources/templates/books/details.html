@@ -1,0 +1,12 @@
+<th:block th:replace="layout :: body">
+    <article>
+        <h2 th:text="${book.name}">Book</h2>
+        <p th:text="${book.author}">Author</p>
+        <p th:text="${book.genre}">Genre</p>
+        <p th:text="${book.language}">Language</p>
+        <p th:text="${book.ageGroup}">Age</p>
+        <p th:text="${book.price}">Price</p>
+        <p th:text="${book.description}">Description</p>
+        <a th:href="@{/books}">Back</a>
+    </article>
+</th:block>
