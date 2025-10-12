@@ -1,5 +1,6 @@
 package com.epam.rd.autocode.spring.project.dto;
 
+import com.epam.rd.autocode.spring.project.model.enums.OrderStatus;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -29,4 +30,7 @@ public class OrderDTO {
 
     @NotEmpty
     private List<BookItemDTO> bookItems;
+
+    @NotEmpty
+    private OrderStatus status;
 }

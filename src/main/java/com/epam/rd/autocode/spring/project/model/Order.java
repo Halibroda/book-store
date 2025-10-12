@@ -1,5 +1,6 @@
 package com.epam.rd.autocode.spring.project.model;
 
+import com.epam.rd.autocode.spring.project.model.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,4 +40,14 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<BookItem> bookItems = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private OrderStatus status;
+
+    @PrePersist
+    void prePersist() {
+        if (status == null) status = OrderStatus.DRAFT;
+        if (orderDate == null) orderDate = LocalDateTime.now();
+    }
 }
