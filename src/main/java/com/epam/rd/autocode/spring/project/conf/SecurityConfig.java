@@ -29,14 +29,12 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable());
         http.cors(c -> {});
         http.authorizeHttpRequests(reg -> reg
-            .requestMatchers(HttpMethod.GET, "/api/books/**").permitAll()
-            .requestMatchers("/api/books/**").hasRole("EMPLOYEE")
-            .requestMatchers(HttpMethod.GET, "/api/clients/**").hasRole("EMPLOYEE")
-            .requestMatchers("/api/orders/employee/**").hasRole("EMPLOYEE")
-            .requestMatchers(HttpMethod.POST, "/api/orders").hasRole("CLIENT")
-            .requestMatchers("/api/orders/client/**").hasRole("CLIENT")
+            .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+            .requestMatchers("/books/**").permitAll()
             .anyRequest().authenticated()
         );
+        http.formLogin(f -> f.loginPage("/login").permitAll());
+        http.logout(l -> l.logoutSuccessUrl("/").permitAll());
         http.httpBasic(b -> {});
         http.authenticationProvider(daoAuthProvider());
         return http.build();
