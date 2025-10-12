@@ -1,5 +1,7 @@
-<th:block th:replace="layout :: body">
-    <article>
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="layout :: layout(~{::section})}">
+    <section>
         <h2 th:text="${book.name}">Book</h2>
         <p th:text="${book.author}">Author</p>
         <p th:text="${book.genre}">Genre</p>
@@ -8,5 +10,6 @@
         <p th:text="${book.price}">Price</p>
         <p th:text="${book.description}">Description</p>
         <a th:href="@{/books}">Back</a>
-    </article>
+    </section>
 </th:block>
+</html>

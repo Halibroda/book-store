@@ -1,5 +1,6 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8"/>
     <title th:text="#{app.title}">Book Store</title>
@@ -11,19 +12,21 @@
         <a th:href="@{/}" th:text="#{nav.home}">Home</a>
         <a th:href="@{/books}" th:text="#{nav.books}">Books</a>
         <span>
-        <a th:href="@{__${#httpServletRequest.requestURI}__(lang='en')}">EN</a> |
-        <a th:href="@{__${#httpServletRequest.requestURI}__(lang='uk')}">UK</a>
-      </span>
+      <a th:href="@{?lang=en}">EN</a> |
+      <a th:href="@{?lang=ua}">UA</a>
+    </span>
         <span sec:authorize="isAnonymous()">
-        <a th:href="@{/login}" th:text="#{nav.login}">Log in</a>
-      </span>
+      <a th:href="@{/login}" th:text="#{nav.login}">Log in</a>
+    </span>
         <span sec:authorize="isAuthenticated()">
-        <form th:action="@{/logout}" method="post">
-          <button type="submit" th:text="#{nav.logout}">Log out</button>
-        </form>
-      </span>
+      <form th:action="@{/logout}" method="post"><button th:text="#{nav.logout}">Log out</button></form>
+    </span>
     </nav>
 </header>
-<main th:insert="~{::body}"></main>
+
+<div th:fragment="layout(content)">
+    <main th:insert="${content}"></main>
+</div>
+
 </body>
 </html>

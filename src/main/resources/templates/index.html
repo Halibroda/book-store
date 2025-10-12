@@ -1,6 +1,9 @@
-<th:block th:replace="layout :: body">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="layout :: layout(~{::section})">
     <section>
         <h1 th:text="#{app.title}">Book Store</h1>
         <p><a th:href="@{/books}">Browse</a></p>
     </section>
 </th:block>
+</html>

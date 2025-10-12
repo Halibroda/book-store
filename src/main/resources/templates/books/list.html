@@ -1,25 +1,25 @@
-<th:block th:replace="layout :: body">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="layout :: layout(~{::section})">
     <section>
         <h1 th:text="#{books.title}">Books</h1>
-
         <form th:action="@{/books}" method="get">
             <input type="text" name="search" th:value="${params.search}" th:placeholder="#{books.search}"/>
             <button type="submit">Go</button>
         </form>
 
-        <div>
+        <div th:if="${page}">
             <div th:each="b : ${page.content}">
                 <a th:href="@{|/books/${b.name}|}" th:text="${b.name}">Name</a>
-                <span th:text="#{books.price} + ': ' + ${b.price}"></span>
+                <span> — <span th:text="${b.price}">0</span></span>
             </div>
-        </div>
 
-        <div>
-            <a th:if="${!page.first}"
-               th:href="@{/books(page=${page.number-1}, size=${page.size}, search=${params.search})}">Prev</a>
-            <span th:text="${page.number + 1} + ' / ' + ${page.totalPages}"></span>
-            <a th:if="${!page.last}"
-               th:href="@{/books(page=${page.number+1}, size=${page.size}, search=${params.search})}">Next</a>
+            <div>
+                <a th:if="${!page.first}" th:href="@{/books(page=${page.number-1},size=${page.size},search=${params.search})}">Prev</a>
+                <span th:text="${page.number + 1} + ' / ' + ${page.totalPages}"></span>
+                <a th:if="${!page.last}" th:href="@{/books(page=${page.number+1},size=${page.size},search=${params.search})}">Next</a>
+            </div>
         </div>
     </section>
 </th:block>
+</html>

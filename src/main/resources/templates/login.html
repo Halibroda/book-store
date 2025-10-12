@@ -1,4 +1,6 @@
-<th:block th:replace="layout :: body">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="layout :: layout(~{::section})">
     <section>
         <h1 th:text="#{login.title}">Sign in</h1>
         <form th:action="@{/login}" method="post">
@@ -14,3 +16,4 @@
         </form>
     </section>
 </th:block>
+</html>
