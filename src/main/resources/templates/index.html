@@ -14,35 +14,45 @@
     <form class="form" method="get" th:action="@{/}">
         <div class="grid" style="grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:12px">
             <div class="form__row">
-                <label>Genre</label>
+                <label th:text="#{filter.genre}">Genre</label>
                 <input type="text" name="genre" th:value="${params.genre}">
             </div>
+
             <div class="form__row">
-                <label>Language</label>
+                <label th:text="#{filter.language}">Language</label>
                 <input type="text" name="language" th:value="${params.language}">
             </div>
+
             <div class="form__row">
-                <label>Age group</label>
+                <label th:text="#{filter.ageGroup}">Age group</label>
                 <input type="text" name="ageGroup" th:value="${params.ageGroup}">
             </div>
+
             <div class="form__row">
-                <label>Min price</label>
+                <label th:text="#{filter.minPrice}">Min price</label>
                 <input type="number" step="0.01" min="0" name="minPrice" th:value="${params.minPrice}">
             </div>
+
             <div class="form__row">
-                <label>Max price</label>
+                <label th:text="#{filter.maxPrice}">Max price</label>
                 <input type="number" step="0.01" min="0" name="maxPrice" th:value="${params.maxPrice}">
             </div>
-            <div class="form__row" style="grid-column:1/-1">
-                <label>Search</label>
-                <input type="text" name="search" th:value="${params.search}" placeholder="title / author / isbn">
+
+            <div class="form__row" style="grid-column: 1/-1">
+                <label th:text="#{filter.search}">Search</label>
+                <input type="text" name="search"
+                       th:value="${params.search}"
+                       th:placeholder="#{filter.search.placeholder}"
+                       placeholder="title / author / isbn">
             </div>
         </div>
+
         <div class="form__actions">
-            <a class="btn btn--ghost" th:href="@{/}">Reset</a>
-            <button class="btn" type="submit">Apply</button>
+            <a class="btn btn--ghost" th:href="@{/}" th:text="#{common.reset}">Reset</a>
+            <button class="btn" type="submit" th:text="#{common.apply}">Apply</button>
         </div>
     </form>
+
 
     <div class="grid books-grid"
          th:if="${page.content != null and !#lists.isEmpty(page.content)}">
@@ -56,8 +66,8 @@
                 </p>
 
                 <p th:if="${b.price != null}"
-                   th:text="${#numbers.formatDecimal(b.price,1,'POINT',2,'NONE')} + ' $'">
-                    9.99 $
+                   th:text="${b.price} + '$'">
+                    0.00 $
                 </p>
             </div>
         </div>
