@@ -1,9 +1,11 @@
 package com.epam.rd.autocode.spring.project.controller;
 
+import com.epam.rd.autocode.spring.project.dto.BookDTO;
 import com.epam.rd.autocode.spring.project.model.enums.AgeGroup;
 import com.epam.rd.autocode.spring.project.model.enums.Language;
 import com.epam.rd.autocode.spring.project.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import java.util.Map;
 @RequestMapping("/books")
 @RequiredArgsConstructor
 public class BookController {
+
     private final BookService bookService;
 
     @GetMapping
@@ -31,11 +34,21 @@ public class BookController {
                        @RequestParam(required = false, name = "search") String search,
                        @PageableDefault(size = 12, sort = "name") Pageable pageable,
                        Model model) {
-        var page = bookService.findBooks(genre, language, ageGroup, minPrice, maxPrice, search, pageable);
+
+        Page<BookDTO> page = bookService.findBooks(
+            genre, language, ageGroup, minPrice, maxPrice, search, pageable
+        );
+
         model.addAttribute("page", page);
         model.addAttribute("params", Map.of(
-            "genre", genre, "language", language, "ageGroup", ageGroup,
-            "minPrice", minPrice, "maxPrice", maxPrice, "search", search));
+            "genre", genre,
+            "language", language,
+            "ageGroup", ageGroup,
+            "minPrice", minPrice,
+            "maxPrice", maxPrice,
+            "search", search
+        ));
+
         return "books/list";
     }
 
@@ -45,4 +58,3 @@ public class BookController {
         return "books/details";
     }
 }
-
