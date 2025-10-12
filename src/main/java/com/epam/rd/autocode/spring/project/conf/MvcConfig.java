@@ -8,26 +8,31 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
 
+import java.time.Duration;
 import java.util.Locale;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
+
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
         ms.setBasename("classpath:messages");
         ms.setDefaultEncoding("UTF-8");
+        ms.setFallbackToSystemLocale(false);
+        ms.setCacheSeconds(0);
         return ms;
     }
 
     @Bean
     public LocaleResolver localeResolver() {
-        SessionLocaleResolver r = new SessionLocaleResolver();
+        CookieLocaleResolver r = new CookieLocaleResolver();
+        r.setCookieName("LOCALE");
         r.setDefaultLocale(Locale.ENGLISH);
+        r.setCookieMaxAge((int) Duration.ofDays(180).getSeconds());
         return r;
     }
 
@@ -49,10 +54,4 @@ public class MvcConfig implements WebMvcConfigurer {
             .addResourceLocations("classpath:/static/css/")
             .setCachePeriod(0);
     }
-
-    @Bean
-    public ResourceUrlEncodingFilter resourceUrlEncodingFilter() {
-        return new ResourceUrlEncodingFilter();
-    }
 }
-

@@ -30,6 +30,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
                 .requestMatchers("/", "/login", "/error/**").permitAll()
+                .requestMatchers("/__i18n/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form

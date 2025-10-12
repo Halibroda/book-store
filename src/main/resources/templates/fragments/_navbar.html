@@ -9,7 +9,7 @@
         <div class="nav__spacer"></div>
 
         <a th:classappend="${#locale.language=='en'} ? 'active' : ''" th:href="@{?lang=en}">EN</a>
-        <span class="muted" th:text="${#locale}">locale</span>
+        <span class="muted">|</span>
         <a th:classappend="${#locale.language=='uk'} ? 'active' : ''" th:href="@{?lang=uk}">UK</a>
 
         <div class="nav__auth">
