@@ -9,7 +9,8 @@ import java.math.BigDecimal;
 
 public final class BookSpecifications {
 
-    private BookSpecifications() {}
+    private BookSpecifications() {
+    }
 
     public static Specification<Book> genreEquals(String genre) {
         return genre == null || genre.isBlank()

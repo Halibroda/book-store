@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
     Optional<Book> findByName(String name);
+
     boolean existsByName(String name);
+
     long deleteByName(String name);
 }

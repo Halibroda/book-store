@@ -27,7 +27,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable());
-        http.cors(c -> {});
+        http.cors(c -> {
+        });
         http.authorizeHttpRequests(reg -> reg
             .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
             .requestMatchers("/books/**").permitAll()
@@ -35,7 +36,8 @@ public class SecurityConfig {
         );
         http.formLogin(f -> f.loginPage("/login").permitAll());
         http.logout(l -> l.logoutSuccessUrl("/").permitAll());
-        http.httpBasic(b -> {});
+        http.httpBasic(b -> {
+        });
         http.authenticationProvider(daoAuthProvider());
         return http.build();
     }

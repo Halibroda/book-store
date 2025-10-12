@@ -6,11 +6,16 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class EmployeeDTO {
     private Long id;
 
-    @Email @NotBlank
+    @Email
+    @NotBlank
     private String email;
 
     @NotBlank

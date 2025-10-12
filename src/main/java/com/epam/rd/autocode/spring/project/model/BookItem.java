@@ -3,13 +3,18 @@ package com.epam.rd.autocode.spring.project.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {"order", "book"})
 @Entity
 @Table(name = "book_items")
 public class BookItem {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

@@ -8,7 +8,11 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BookDTO {
     private Long id;
 
@@ -20,7 +24,8 @@ public class BookDTO {
     @NotNull
     private AgeGroup ageGroup;
 
-    @NotNull @DecimalMin("0.0")
+    @NotNull
+    @DecimalMin("0.0")
     private BigDecimal price;
 
     private LocalDate publicationDate;

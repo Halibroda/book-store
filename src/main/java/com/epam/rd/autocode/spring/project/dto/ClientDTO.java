@@ -8,16 +8,22 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ClientDTO {
     private Long id;
 
-    @Email @NotBlank
+    @Email
+    @NotBlank
     private String email;
 
     @NotBlank
     private String name;
 
-    @NotNull @PositiveOrZero
+    @NotNull
+    @PositiveOrZero
     private BigDecimal balance;
 }
