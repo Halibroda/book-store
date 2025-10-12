@@ -2,6 +2,7 @@ package com.epam.rd.autocode.spring.project.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -23,5 +24,6 @@ public class EmployeeDTO {
 
     private String phone;
 
+    @Past
     private LocalDate birthDate;
 }

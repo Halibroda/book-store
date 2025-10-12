@@ -19,17 +19,21 @@ public class BookDTO {
     @NotBlank
     private String name;
 
+    @NotBlank
     private String genre;
 
     @NotNull
     private AgeGroup ageGroup;
 
     @NotNull
-    @DecimalMin("0.0")
+    @Digits(integer = 6, fraction = 2)
+    @DecimalMin("0.01")
     private BigDecimal price;
 
+    @PastOrPresent
     private LocalDate publicationDate;
 
+    @NotBlank
     private String author;
 
     @Min(1)
@@ -37,6 +41,7 @@ public class BookDTO {
 
     private String characteristics;
 
+    @Size(max = 2000)
     private String description;
 
     @NotNull
