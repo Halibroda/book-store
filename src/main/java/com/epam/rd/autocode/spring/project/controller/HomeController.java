@@ -35,13 +35,7 @@ public class HomeController {
                        @PageableDefault(size = 12, sort = "name") Pageable pageable,
                        Model model) {
 
-        Page<BookDTO> page;
-        try {
-            page = bookService.findBooks(genre, language, ageGroup, minPrice, maxPrice, search, pageable);
-        } catch (Throwable ignore) {
-            List<BookDTO> all = bookService.getAllBooks();
-            page = new PageImpl<>(all, pageable, all.size());
-        }
+        Page<BookDTO> page = bookService.findBooks(genre, language, ageGroup, minPrice, maxPrice, search, pageable);
 
         Map<String, Object> params = new HashMap<>();
         params.put("genre", genre);

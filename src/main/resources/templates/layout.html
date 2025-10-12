@@ -1,16 +1,11 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head>
-    <meta charset="UTF-8"/>
-    <title th:text="#{app.title}">Book Store</title>
-    <link rel="stylesheet" th:href="@{/css/app.css}"/>
-</head>
+<head th:replace="~{fragments/_head :: head(#{app.title})}"></head>
 <body>
 <header>
     <nav>
-        <a th:href="@{/}" th:text="#{nav.home}">Home</a>
-        <a th:href="@{/books}" th:text="#{nav.books}">Books</a>
+        <a th:href="@{/}" th:text="#{nav.books}">Books</a>
         <span>
       <a th:href="@{?lang=en}">EN</a> |
       <a th:href="@{?lang=ua}">UA</a>

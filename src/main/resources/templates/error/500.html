@@ -1,0 +1,11 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/_head :: head('500')"></head>
+<body>
+<main class="container container--center">
+    <h1>500</h1>
+    <p class="muted" th:text="#{error.server}">Something went wrong.</p>
+    <a class="btn" th:href="@{/static}" th:text="#{common.backHome}">Back to home</a>
+</main>
+</body>
+</html>

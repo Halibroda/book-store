@@ -1,19 +1,32 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="layout :: layout(~{::section})">
-    <section>
-        <h1 th:text="#{login.title}">Sign in</h1>
-        <form th:action="@{/login}" method="post">
-            <label>
-                <span th:text="#{login.email}">Email</span>
-                <input type="text" name="username"/>
-            </label>
-            <label>
-                <span th:text="#{login.password}">Password</span>
-                <input type="password" name="password"/>
-            </label>
-            <button type="submit" th:text="#{login.submit}">Sign in</button>
-        </form>
-    </section>
-</th:block>
+<head th:replace="~{fragments/_head :: head(#{app.title})}"></head>
+<body>
+<div th:replace="fragments/_navbar :: navbar"></div>
+
+<main class="container container--narrow">
+    <h1 th:text="#{nav.login}">Log in</h1>
+
+    <form th:action="@{/login}" method="post" class="form">
+        <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <div class="form__row">
+            <label for="username">Email</label>
+            <input id="username" name="username" type="text" autocomplete="username" required/>
+        </div>
+
+        <div class="form__row">
+            <label for="password" th:text="#{auth.password}">Password</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required/>
+        </div>
+
+        <div class="form__actions">
+            <button class="btn" th:text="#{nav.login}">Log in</button>
+        </div>
+
+        <p class="error" th:if="${param.error}" th:text="#{auth.badCredentials}">Bad credentials</p>
+        <p class="muted" th:if="${param.logout}" th:text="#{auth.loggedOut}">You have been logged out</p>
+    </form>
+</main>
+</body>
 </html>

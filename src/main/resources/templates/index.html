@@ -1,9 +1,83 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="layout :: layout(~{::section})">
-    <section>
-        <h1 th:text="#{app.title}">Book Store</h1>
-        <p><a th:href="@{/books}">Browse</a></p>
-    </section>
-</th:block>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/_head :: head(#{books.title})}"></head>
+<body>
+<div th:replace="~{fragments/_navbar :: navbar}"></div>
+
+<main class="container">
+    <div class="page-header">
+        <h1 th:text="#{books.title}">Books</h1>
+        <a class="btn" th:href="@{/books/new}" sec:authorize="hasAuthority('ROLE_ADMIN')" th:text="#{books.add}">Add book</a>
+    </div>
+
+    <form class="form" method="get" th:action="@{/}">
+        <div class="grid" style="grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:12px">
+            <div class="form__row">
+                <label>Genre</label>
+                <input type="text" name="genre" th:value="${params.genre}">
+            </div>
+            <div class="form__row">
+                <label>Language</label>
+                <input type="text" name="language" th:value="${params.language}">
+            </div>
+            <div class="form__row">
+                <label>Age group</label>
+                <input type="text" name="ageGroup" th:value="${params.ageGroup}">
+            </div>
+            <div class="form__row">
+                <label>Min price</label>
+                <input type="number" step="0.01" min="0" name="minPrice" th:value="${params.minPrice}">
+            </div>
+            <div class="form__row">
+                <label>Max price</label>
+                <input type="number" step="0.01" min="0" name="maxPrice" th:value="${params.maxPrice}">
+            </div>
+            <div class="form__row" style="grid-column:1/-1">
+                <label>Search</label>
+                <input type="text" name="search" th:value="${params.search}" placeholder="title / author / isbn">
+            </div>
+        </div>
+        <div class="form__actions">
+            <a class="btn btn--ghost" th:href="@{/}">Reset</a>
+            <button class="btn" type="submit">Apply</button>
+        </div>
+    </form>
+
+    <div class="grid books-grid"
+         th:if="${page.content != null and !#lists.isEmpty(page.content)}">
+        <div class="card" th:each="b : ${page.content}">
+            <div class="card__body">
+                <h3 class="card__title" th:text="${b.name}">Title</h3>
+
+                <p class="muted"
+                   th:text="${b.author}">
+                    Author
+                </p>
+
+                <p th:if="${b.price != null}"
+                   th:text="${#numbers.formatDecimal(b.price,1,'POINT',2,'NONE')} + ' $'">
+                    9.99 $
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <p class="muted" th:if="${page.totalElements == 0}" th:text="#{books.empty}">
+        No books yet.
+    </p>
+
+    <div th:if="${page.totalPages > 1}" style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap">
+        <a class="btn btn--ghost"
+           th:each="i : ${#numbers.sequence(0, page.totalPages-1)}"
+           th:classappend="${i} == ${page.number} ? 'active' : ''"
+           th:text="${i + 1}"
+           th:href="@{/(page=${i},size=${page.size},sort=${#request.getParameter('sort')},
+                    genre=${params.genre},language=${params.language},ageGroup=${params.ageGroup},
+                    minPrice=${params.minPrice},maxPrice=${params.maxPrice},search=${params.search})}">
+            1
+        </a>
+    </div>
+</main>
+</body>
 </html>

@@ -1,0 +1,11 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/_head :: head('404')"></head>
+<body>
+<main class="container container--center">
+    <h1>404</h1>
+    <p class="muted" th:text="#{error.notFound}">Page not found.</p>
+    <a class="btn" th:href="@{/static}" th:text="#{common.backHome}">Back to home</a>
+</main>
+</body>
+</html>
