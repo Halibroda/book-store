@@ -27,7 +27,7 @@ public class OrderController {
     public String myOrders(Model model, Principal principal) {
         var orders = orderService.getOrdersByClient(principal.getName());
         model.addAttribute("orders", orders);
-        return "orders/list"; // <-- було "orders"
+        return "orders/list";
     }
 
     @PreAuthorize("hasRole('EMPLOYEE')")
