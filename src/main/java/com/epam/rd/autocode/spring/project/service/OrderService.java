@@ -13,4 +13,8 @@ public interface OrderService {
     OrderDTO addOrder(OrderDTO order);
 
     OrderDTO confirmOrder(Long orderId, String employeeEmail);
+
+    OrderDTO saveDraft(OrderDTO order);
+
+    OrderDTO submit(OrderDTO order);
 }

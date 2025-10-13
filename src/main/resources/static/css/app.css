@@ -216,3 +216,43 @@ a:hover {
 .books-grid {
     margin-top: 8px
 }
+
+.cart-grid {
+    grid-template-columns: 1fr 120px 180px 160px;
+    align-items: center;
+    gap: 12px;
+}
+
+.ta-center { text-align: center; }
+
+.qty-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.qty {
+    width: 92px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    color: #1f2937;
+    text-align: center;
+    outline: none;
+}
+
+.qty:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, .18);
+}
+
+.btn-sm {
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+}

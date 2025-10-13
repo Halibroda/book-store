@@ -51,6 +51,94 @@ public class OrderServiceImpl implements OrderService {
             .toList();
     }
 
+    @Override
+    public OrderDTO saveDraft(OrderDTO dto) {
+        if (dto.getClientId() == null) {
+            throw new NotFoundException("Client id is required");
+        }
+        var client = clientRepository.findById(dto.getClientId())
+            .orElseThrow(() -> new NotFoundException("Client not found: " + dto.getClientId()));
+
+        var existing = orderRepository.findAllByClient_Email(client.getEmail());
+        Order order = existing.isEmpty() ? new Order() : existing.get(0);
+        order.setClient(client);
+        if (order.getOrderDate() == null) order.setOrderDate(LocalDateTime.now());
+
+        if (order.getBookItems() == null) {
+            order.setBookItems(new java.util.ArrayList<>());
+        } else {
+            order.getBookItems().clear();
+        }
+
+        if (dto.getBookItems() != null && !dto.getBookItems().isEmpty()) {
+            for (var bi : dto.getBookItems()) {
+                var book = bookRepository.findById(bi.getBookId())
+                    .orElseThrow(() -> new NotFoundException("Book not found: " + bi.getBookId()));
+                var item = new BookItem();
+                item.setOrder(order);
+                item.setBook(book);
+                item.setQuantity(bi.getQuantity() == null ? 1 : Math.max(1, bi.getQuantity()));
+                order.getBookItems().add(item);
+            }
+        }
+
+        recalcTotal(order);
+        var saved = orderRepository.save(order);
+        return mapper.map(saved, OrderDTO.class);
+    }
+
+    @Override
+    public OrderDTO submit(OrderDTO dto) {
+        if (dto.getClientId() == null) {
+            throw new NotFoundException("Client id is required");
+        }
+        var client = clientRepository.findById(dto.getClientId())
+            .orElseThrow(() -> new NotFoundException("Client not found: " + dto.getClientId()));
+
+        var existing = orderRepository.findAllByClient_Email(client.getEmail());
+        if (existing.isEmpty()) {
+            throw new NotFoundException("Order not found for client: " + client.getEmail());
+        }
+        Order order = existing.get(0);
+
+        if (dto.getBookItems() != null) {
+            if (order.getBookItems() == null) {
+                order.setBookItems(new java.util.ArrayList<>());
+            } else {
+                order.getBookItems().clear();
+            }
+            for (var bi : dto.getBookItems()) {
+                var book = bookRepository.findById(bi.getBookId())
+                    .orElseThrow(() -> new NotFoundException("Book not found: " + bi.getBookId()));
+                var item = new BookItem();
+                item.setOrder(order);
+                item.setBook(book);
+                item.setQuantity(bi.getQuantity() == null ? 1 : Math.max(1, bi.getQuantity()));
+                order.getBookItems().add(item);
+            }
+        }
+
+        recalcTotal(order);
+        order.setOrderDate(LocalDateTime.now());
+        var saved = orderRepository.save(order);
+        return mapper.map(saved, OrderDTO.class);
+    }
+
+    private void recalcTotal(Order order) {
+        BigDecimal total = BigDecimal.ZERO;
+        if (order.getBookItems() != null) {
+            for (BookItem it : order.getBookItems()) {
+                BigDecimal price = it.getBook() != null ? it.getBook().getPrice() : BigDecimal.ZERO;
+                int qty = it.getQuantity() == null ? 0 : it.getQuantity();
+                if (price != null && qty > 0) {
+                    total = total.add(price.multiply(BigDecimal.valueOf(qty)));
+                }
+            }
+        }
+        order.setPrice(total);
+    }
+
+
     @Transactional(readOnly = true)
     @Override
     public List<OrderDTO> getOrdersByEmployee(String employeeEmail) {

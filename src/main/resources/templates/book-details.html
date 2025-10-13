@@ -21,7 +21,7 @@
                 th:text="${book.price} + '$'">0.00 $</h3>
         </div>
         <div class="card__footer">
-            <form th:action="@{/cart/add}" method="post">
+            <form th:action="@{/order/cart/create}" method="post">
                 <input type="hidden" name="bookId" th:value="${book.id}">
                 <input type="number" name="quantity" min="1" value="1" style="width:90px">
                 <button class="btn" type="submit" th:text="#{cart.add}">Add to cart</button>
