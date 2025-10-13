@@ -8,6 +8,7 @@ import com.epam.rd.autocode.spring.project.model.BookItem;
 import com.epam.rd.autocode.spring.project.model.Client;
 import com.epam.rd.autocode.spring.project.model.Employee;
 import com.epam.rd.autocode.spring.project.model.Order;
+import com.epam.rd.autocode.spring.project.model.enums.OrderStatus;
 import com.epam.rd.autocode.spring.project.repo.BookRepository;
 import com.epam.rd.autocode.spring.project.repo.ClientRepository;
 import com.epam.rd.autocode.spring.project.repo.EmployeeRepository;
@@ -30,6 +31,25 @@ public class OrderServiceImpl implements OrderService {
     private final EmployeeRepository employeeRepository;
     private final BookRepository bookRepository;
     private final ModelMapper mapper;
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<OrderDTO> getSubmitted() {
+        return orderRepository.findAllByStatusAndEmployeeIsNull(OrderStatus.SUBMITTED)
+            .stream().map(o -> mapper.map(o, OrderDTO.class)).toList();
+    }
+
+    @Override
+    public OrderDTO confirmOrder(Long orderId, String employeeEmail) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new NotFoundException("Order not found: " + orderId));
+        Employee employee = employeeRepository.findByEmail(employeeEmail)
+            .orElseThrow(() -> new NotFoundException("Employee not found: " + employeeEmail));
+        order.setEmployee(employee);
+        order.setStatus(OrderStatus.CONFIRMED);
+        Order saved = orderRepository.save(order);
+        return mapper.map(saved, OrderDTO.class);
+    }
 
     public OrderServiceImpl(OrderRepository orderRepository,
                             ClientRepository clientRepository,
@@ -82,6 +102,7 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
+        order.setStatus(OrderStatus.DRAFT);
         recalcTotal(order);
         var saved = orderRepository.save(order);
         return mapper.map(saved, OrderDTO.class);
@@ -89,24 +110,19 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO submit(OrderDTO dto) {
-        if (dto.getClientId() == null) {
-            throw new NotFoundException("Client id is required");
-        }
+        if (dto.getClientId() == null) throw new NotFoundException("Client id is required");
         var client = clientRepository.findById(dto.getClientId())
             .orElseThrow(() -> new NotFoundException("Client not found: " + dto.getClientId()));
 
         var existing = orderRepository.findAllByClient_Email(client.getEmail());
-        if (existing.isEmpty()) {
-            throw new NotFoundException("Order not found for client: " + client.getEmail());
-        }
-        Order order = existing.get(0);
+        if (existing.isEmpty()) throw new NotFoundException("Order not found for client: " + client.getEmail());
+
+        var order = existing.get(0);
 
         if (dto.getBookItems() != null) {
-            if (order.getBookItems() == null) {
-                order.setBookItems(new java.util.ArrayList<>());
-            } else {
-                order.getBookItems().clear();
-            }
+            if (order.getBookItems() == null) order.setBookItems(new java.util.ArrayList<>());
+            else order.getBookItems().clear();
+
             for (var bi : dto.getBookItems()) {
                 var book = bookRepository.findById(bi.getBookId())
                     .orElseThrow(() -> new NotFoundException("Book not found: " + bi.getBookId()));
@@ -119,7 +135,9 @@ public class OrderServiceImpl implements OrderService {
         }
 
         recalcTotal(order);
-        order.setOrderDate(LocalDateTime.now());
+        order.setOrderDate(java.time.LocalDateTime.now());
+        order.setStatus(OrderStatus.SUBMITTED);
+
         var saved = orderRepository.save(order);
         return mapper.map(saved, OrderDTO.class);
     }
@@ -138,6 +156,12 @@ public class OrderServiceImpl implements OrderService {
         order.setPrice(total);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<OrderDTO> getIncomingOrders() {
+        return orderRepository.findAllByStatus(OrderStatus.SUBMITTED)
+            .stream().map(o -> mapper.map(o, OrderDTO.class)).toList();
+    }
 
     @Transactional(readOnly = true)
     @Override
@@ -180,17 +204,6 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setPrice(dto.getPrice() != null ? dto.getPrice() : total);
 
-        Order saved = orderRepository.save(order);
-        return mapper.map(saved, OrderDTO.class);
-    }
-
-    @Override
-    public OrderDTO confirmOrder(Long orderId, String employeeEmail) {
-        Order order = orderRepository.findById(orderId)
-            .orElseThrow(() -> new NotFoundException("Order not found: " + orderId));
-        Employee employee = employeeRepository.findByEmail(employeeEmail)
-            .orElseThrow(() -> new NotFoundException("Employee not found: " + employeeEmail));
-        order.setEmployee(employee);
         Order saved = orderRepository.save(order);
         return mapper.map(saved, OrderDTO.class);
     }

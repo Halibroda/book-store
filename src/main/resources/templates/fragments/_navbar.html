@@ -8,10 +8,10 @@
         <div class="nav__spacer"></div>
 
         <a sec:authorize="hasRole('CLIENT')" th:href="@{/cart}" th:text="#{cart.title}">Cart</a>
-        <a sec:authorize="hasRole('CLIENT')" th:href="@{/orders}" th:text="#{orders.my}">My orders</a>
+        <a sec:authorize="hasRole('CLIENT')" th:href="@{/order}" th:text="#{orders.my}">My orders</a>
 
-        <a sec:authorize="hasRole('EMPLOYEE')" th:href="@{/books/new}" th:text="#{books.add}">Add book</a>
-        <a sec:authorize="hasRole('EMPLOYEE')" th:href="@{/orders/manage}" th:text="#{orders.manage}">Manage orders</a>
+        <a sec:authorize="hasRole('EMPLOYEE')" th:href="@{/book/new}" th:text="#{books.add}">Add book</a>
+        <a sec:authorize="hasRole('EMPLOYEE')" th:href="@{/order/manage}" th:text="#{orders.manage}">Manage orders</a>
 
         <a th:classappend="${#locale.language=='en'} ? 'active' : ''" th:href="@{?lang=en}">EN</a>
         <span class="muted">|</span>

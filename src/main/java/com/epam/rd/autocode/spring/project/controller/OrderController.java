@@ -22,6 +22,31 @@ public class OrderController {
     private final ClientService clientService;
     private final BookService bookService;
 
+    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping
+    public String myOrders(Model model, Principal principal) {
+        var orders = orderService.getOrdersByClient(principal.getName());
+        model.addAttribute("orders", orders);
+        return "orders/list"; // <-- було "orders"
+    }
+
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    @GetMapping("/manage")
+    public String manage(Model model, Principal principal) {
+        var incoming = orderService.getIncomingOrders();
+        var mine = orderService.getOrdersByEmployee(principal.getName());
+        model.addAttribute("incoming", incoming);
+        model.addAttribute("mine", mine);
+        return "orders/manage";
+    }
+
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    @PostMapping("/{id}/confirm")
+    public String confirm(@PathVariable Long id, Principal principal) {
+        orderService.confirmOrder(id, principal.getName());
+        return "redirect:/order/manage?confirmed";
+    }
+
     @GetMapping("/cart")
     @PreAuthorize("hasRole('CLIENT')")
     public String cart(Model model, Principal principal) {
@@ -156,14 +181,6 @@ public class OrderController {
     }
 
     @PreAuthorize("hasRole('CLIENT')")
-    @GetMapping
-    public String myOrders(Model model, Principal principal) {
-        var orders = orderService.getOrdersByClient(principal.getName());
-        model.addAttribute("orders", orders);
-        return "orders";
-    }
-
-    @PreAuthorize("hasRole('CLIENT')")
     @PostMapping("/cart/save")
     public String saveDraft(@ModelAttribute OrderDTO order, Principal principal) {
         var client = clientService.getClientByEmail(principal.getName());
@@ -179,20 +196,5 @@ public class OrderController {
         order.setClientId(client.getId());
         orderService.submit(order);
         return "redirect:/order?submitted";
-    }
-
-    @PreAuthorize("hasRole('EMPLOYEE')")
-    @GetMapping("/manage")
-    public String manage(Model model, Principal principal) {
-        var list = orderService.getOrdersByEmployee(principal.getName());
-        model.addAttribute("orders", list);
-        return "orders-manage";
-    }
-
-    @PreAuthorize("hasRole('EMPLOYEE')")
-    @PostMapping("/{id}/confirm")
-    public String confirm(@PathVariable Long id, Principal principal) {
-        orderService.confirmOrder(id, principal.getName());
-        return "redirect:/order/manage?confirmed";
     }
 }

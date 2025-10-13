@@ -1,0 +1,37 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/_head :: head(#{orders.my})}"></head>
+<body>
+<div th:replace="~{fragments/_navbar :: navbar}"></div>
+
+<main class="container">
+    <h1 th:text="#{orders.my}">My orders</h1>
+
+    <div class="card" th:if="${orders != null and !orders.isEmpty()}">
+        <div class="card__body">
+            <div class="grid" style="grid-template-columns:120px 180px 1fr 140px 140px;gap:12px;align-items:center">
+                <div class="muted" th:text="#{orders.id}">ID</div>
+                <div class="muted" th:text="#{orders.date}">Date</div>
+                <div class="muted" th:text="#{orders.status}">Status</div>
+                <div class="muted" th:text="#{orders.total}">Total</div>
+                <div class="muted" th:text="#{orders.items}">Items</div>
+
+                <th:block th:each="o : ${orders}">
+                    <div th:text="${o.id}">1</div>
+                    <div th:text="${#temporals.format(o.orderDate,'yyyy-MM-dd HH:mm')}">date</div>
+                    <div th:text="${o.status}">DRAFT</div>
+                    <div th:text="${o.price} + ' $'">0.00 $</div>
+                    <div th:text="${o.bookItems != null ? o.bookItems.size() : 0}">0</div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+
+    <div class="container--center" th:if="${orders == null or orders.isEmpty()}">
+        <p class="muted" th:text="#{orders.empty}">No orders yet.</p>
+        <a class="btn" th:href="@{/}" th:text="#{common.backHome}">Back</a>
+    </div>
+</main>
+</body>
+</html>

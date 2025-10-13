@@ -1,0 +1,77 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/_head :: head(#{orders.manage.title})}"></head>
+<body>
+<div th:replace="~{fragments/_navbar :: navbar}"></div>
+
+<main class="container">
+    <h1 th:text="#{orders.manage.title}">Orders</h1>
+
+    <div class="card">
+        <div class="card__body">
+            <h2 class="card__title" th:text="#{orders.incoming}">Incoming</h2>
+            <div th:if="${incoming != null and !incoming.isEmpty()}">
+                <div class="grid" style="grid-template-columns: 120px 1fr 140px 160px 160px; gap:12px; align-items:center">
+                    <div class="muted" th:text="#{orders.id}">ID</div>
+                    <div class="muted" th:text="#{orders.client}">Client</div>
+                    <div class="muted" th:text="#{orders.total}">Total</div>
+                    <div class="muted" th:text="#{orders.date}">Date</div>
+                    <div class="muted ta-center" th:text="#{orders.actions}">Actions</div>
+
+                    <th:block th:each="o : ${incoming}">
+                        <div th:text="${o.id}">1</div>
+                        <div th:text="${o.clientId}">Client</div>
+                        <div th:text="${o.price} + ' $'">0.00 $</div>
+                        <div th:text="${#temporals.format(o.orderDate,'yyyy-MM-dd HH:mm')}">date</div>
+                        <div class="ta-center">
+                            <form th:action="@{|/order/${o.id}/confirm|}" method="post" style="display:inline-block">
+                                <button class="btn" type="submit" th:text="#{orders.confirm}">Confirm</button>
+                                <th:block th:if="${_csrf != null}">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                </th:block>
+                            </form>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <p class="muted" th:if="${incoming == null or incoming.isEmpty()}"
+               th:text="#{orders.incoming.empty}">No incoming orders.</p>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+        <div class="card__body">
+            <h2 class="card__title" th:text="#{orders.mine}">My orders</h2>
+            <div th:if="${mine != null and !mine.isEmpty()}">
+                <div class="grid" style="grid-template-columns: 120px 1fr 140px 160px 140px; gap:12px; align-items:center">
+                    <div class="muted" th:text="#{orders.id}">ID</div>
+                    <div class="muted" th:text="#{orders.client}">Client</div>
+                    <div class="muted" th:text="#{orders.total}">Total</div>
+                    <div class="muted" th:text="#{orders.date}">Date</div>
+                    <div class="muted" th:text="#{orders.status}">Status</div>
+
+                    <th:block th:each="o : ${mine}">
+                        <div th:text="${o.id}">1</div>
+                        <div th:text="${o.clientId}">Client</div>
+                        <div th:text="${o.price} + ' $'">0.00 $</div>
+                        <div th:text="${#temporals.format(o.orderDate,'yyyy-MM-dd HH:mm')}">date</div>
+
+                        <div class="ta-center">
+                            <form th:action="@{|/order/${o.id}/confirm|}" method="post" class="inline">
+                                <button class="btn" type="submit" th:text="#{orders.confirm}">Confirm</button>
+                                <th:block th:if="${_csrf != null}">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                </th:block>
+                            </form>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <p class="muted" th:if="${mine == null or mine.isEmpty()}"
+               th:text="#{orders.mine.empty}">No orders.</p>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -17,4 +17,8 @@ public interface OrderService {
     OrderDTO saveDraft(OrderDTO order);
 
     OrderDTO submit(OrderDTO order);
+
+    List<OrderDTO> getSubmitted();
+
+    List<OrderDTO> getIncomingOrders();
 }
