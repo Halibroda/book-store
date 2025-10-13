@@ -1,18 +1,18 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/_head :: head(#{books.title})}"></head>
+<head th:replace="~{fragments/_head :: head(#{nav.login})}"></head>
 <body>
 <div th:replace="~{fragments/_navbar :: navbar}"></div>
 
 <main class="container container--narrow">
     <h1 th:text="#{nav.login}">Log in</h1>
 
-    <form th:action="@{/login}" method="post" class="form">
+    <form th:action="@{/auth/login}" method="post" class="form">
         <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
         <div class="form__row">
-            <label for="username">Email</label>
-            <input id="username" name="username" type="text" autocomplete="username" required/>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="username" required/>
         </div>
 
         <div class="form__row">
@@ -23,10 +23,8 @@
         <div class="form__actions">
             <button class="btn" th:text="#{nav.login}">Log in</button>
         </div>
-
-        <p class="error" th:if="${param.error}" th:text="#{auth.badCredentials}">Bad credentials</p>
-        <p class="muted" th:if="${param.logout}" th:text="#{auth.loggedOut}">You have been logged out</p>
     </form>
+
 </main>
 </body>
 </html>
