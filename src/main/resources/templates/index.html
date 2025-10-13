@@ -53,24 +53,17 @@
         </div>
     </form>
 
-
     <div class="grid books-grid"
          th:if="${page.content != null and !#lists.isEmpty(page.content)}">
-        <div class="card" th:each="b : ${page.content}">
+        <a class="card card--link"
+           th:each="b : ${page.content}"
+           th:href="@{/book/{name}(name=${b.name})}">
             <div class="card__body">
                 <h3 class="card__title" th:text="${b.name}">Title</h3>
-
-                <p class="muted"
-                   th:text="${b.author}">
-                    Author
-                </p>
-
-                <p th:if="${b.price != null}"
-                   th:text="${b.price} + '$'">
-                    0.00 $
-                </p>
+                <p class="muted" th:text="${b.author}">Author</p>
+                <p th:if="${b.price != null}" th:text="${b.price} + '$'">0.00 $</p>
             </div>
-        </div>
+        </a>
     </div>
 
     <p class="muted" th:if="${page.totalElements == 0}" th:text="#{books.empty}">

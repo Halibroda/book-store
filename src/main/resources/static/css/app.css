@@ -7,7 +7,7 @@
     --muted: #6b7280;
     --primary: #22c55e;
     --danger: #ef4444;
-    --border: #ffe1c1;
+    --border: #ffdeb9;
     --radius: 14px;
     --shadow: 0 10px 30px rgba(17, 24, 39, .08);
     --shadow-soft: 0 4px 14px rgba(17, 24, 39, .06);
@@ -223,7 +223,9 @@ a:hover {
     gap: 12px;
 }
 
-.ta-center { text-align: center; }
+.ta-center {
+    text-align: center;
+}
 
 .qty-form {
     display: flex;
@@ -255,4 +257,20 @@ a:hover {
 .actions {
     display: flex;
     justify-content: center;
+}
+
+.card--link {
+    display: block;
+    color: inherit;
+    text-decoration: none
+}
+
+.card--link:hover {
+    filter: brightness(0.99);
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    background: linear-gradient(180deg, #ffffff 0%, #fff6e5 100%);
+    border: 2px solid var(--border);
+    transform: translateY(-0.5vw);
+    transition: 0.3s;
 }
