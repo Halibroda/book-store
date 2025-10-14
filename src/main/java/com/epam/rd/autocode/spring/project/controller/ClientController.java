@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +43,17 @@ public class ClientController {
                            BindingResult br,
                            Principal principal,
                            RedirectAttributes ra) {
+        log.info("client.profile.update.in user={} name='{}' balance='{}'",
+            principal.getName(), form.getName(), form.getBalance());
         if (br.hasErrors()) {
+            var fieldErrs = br.getFieldErrors().stream()
+                .map(fe -> fe.getField() + "=" + fe.getRejectedValue() + " (" + String.join(",", fe.getCodes()) + ") " + fe.getDefaultMessage())
+                .toList();
+            var objErrs = br.getGlobalErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .toList();
+            log.warn("client.profile.update.validation user={} fieldErrors={} globalErrors={}",
+                principal.getName(), fieldErrs, objErrs);
             ra.addFlashAttribute("org.springframework.validation.BindingResult.form", br);
             ra.addFlashAttribute("form", form);
             ra.addFlashAttribute("error", "Перевірте правильність заповнення форми");
@@ -53,7 +64,8 @@ public class ClientController {
         var updated = clientService.updateClientByEmail(principal.getName(), form);
         ra.addFlashAttribute("form", updated);
         ra.addFlashAttribute("success", "Дані оновлено");
-        log.info("client.profile.update.success user={}", principal.getName());
+        log.info("client.profile.update.ok user={} newName='{}' newBalance={}",
+            principal.getName(), updated.getName(), updated.getBalance());
         return "redirect:/clients/me";
     }
 

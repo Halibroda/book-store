@@ -27,6 +27,8 @@
         <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <input type="hidden" th:field="*{email}"/>
 
+        <input type="hidden" th:field="*{enabled}"/>
+
         <div class="form__row">
             <label for="name" th:text="#{profile.name}">Ім’я</label>
             <input id="name" type="text" th:field="*{name}" required/>
