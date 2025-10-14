@@ -15,4 +15,8 @@ public interface ClientService {
     void deleteClientByEmail(String email);
 
     ClientDTO addClient(ClientDTO client);
+
+    void blockByEmail(String email);
+
+    void unblockByEmail(String email);
 }

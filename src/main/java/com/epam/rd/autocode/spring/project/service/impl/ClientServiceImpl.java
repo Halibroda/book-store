@@ -1,5 +1,6 @@
 package com.epam.rd.autocode.spring.project.service.impl;
 
+import com.epam.rd.autocode.spring.project.controller.ClientController;
 import com.epam.rd.autocode.spring.project.dto.ClientDTO;
 import com.epam.rd.autocode.spring.project.exception.AlreadyExistException;
 import com.epam.rd.autocode.spring.project.exception.NotFoundException;
@@ -7,6 +8,8 @@ import com.epam.rd.autocode.spring.project.model.Client;
 import com.epam.rd.autocode.spring.project.repo.ClientRepository;
 import com.epam.rd.autocode.spring.project.service.ClientService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +18,7 @@ import java.util.List;
 @Service
 @Transactional
 public class ClientServiceImpl implements ClientService {
+    private static final Logger log = LoggerFactory.getLogger(ClientServiceImpl.class);
 
     private final ClientRepository clientRepository;
     private final ModelMapper mapper;
@@ -67,5 +71,25 @@ public class ClientServiceImpl implements ClientService {
         Client entity = mapper.map(dto, Client.class);
         Client saved = clientRepository.save(entity);
         return mapper.map(saved, ClientDTO.class);
+    }
+
+    @Override
+    public void blockByEmail(String email) {
+        Client c = clientRepository.findByEmail(email)
+            .orElseThrow(() -> new NotFoundException("Client not found: " + email));
+        if (Boolean.FALSE.equals(c.getEnabled())) return;
+        c.setEnabled(false);
+        clientRepository.save(c);
+        log.warn("client.block email={}", email);
+    }
+
+    @Override
+    public void unblockByEmail(String email) {
+        Client c = clientRepository.findByEmail(email)
+            .orElseThrow(() -> new NotFoundException("Client not found: " + email));
+        if (Boolean.TRUE.equals(c.getEnabled())) return;
+        c.setEnabled(true);
+        clientRepository.save(c);
+        log.info("client.unblock email={}", email);
     }
 }

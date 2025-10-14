@@ -4,6 +4,7 @@ import com.epam.rd.autocode.spring.project.model.Client;
 import com.epam.rd.autocode.spring.project.model.Employee;
 import com.epam.rd.autocode.spring.project.repo.ClientRepository;
 import com.epam.rd.autocode.spring.project.repo.EmployeeRepository;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
@@ -24,16 +25,26 @@ public class AppUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Employee e = employeeRepository.findByEmail(username).orElse(null);
-        if (e != null) {
-            return new AppUserDetails(e.getId(), e.getEmail(), e.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_EMPLOYEE")), true);
-        }
-        Client c = clientRepository.findByEmail(username).orElse(null);
-        if (c != null) {
-            return new AppUserDetails(c.getId(), c.getEmail(), c.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_CLIENT")), true);
-        }
-        throw new UsernameNotFoundException("User not found: " + username);
+        return employeeRepository.findByEmail(username)
+            .<UserDetails>map(e -> toDetails(
+                e, List.of(new SimpleGrantedAuthority("ROLE_EMPLOYEE"))))
+            .orElseGet(() -> clientRepository.findByEmail(username)
+                .map(c -> toDetails(
+                    c, List.of(new SimpleGrantedAuthority("ROLE_CLIENT"))))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username)));
+    }
+
+    private boolean enabledOrDefault(Boolean enabled) {
+        return enabled == null || enabled; // null => true
+    }
+
+    private UserDetails toDetails(Employee e, List<? extends GrantedAuthority> auth) {
+        boolean enabled = enabledOrDefault(e.getEnabled());
+        return new AppUserDetails(e.getId(), e.getEmail(), e.getPassword(), auth, enabled);
+    }
+
+    private UserDetails toDetails(Client c, List<? extends GrantedAuthority> auth) {
+        boolean enabled = enabledOrDefault(c.getEnabled());
+        return new AppUserDetails(c.getId(), c.getEmail(), c.getPassword(), auth, enabled);
     }
 }

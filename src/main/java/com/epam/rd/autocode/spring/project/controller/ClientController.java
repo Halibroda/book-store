@@ -49,7 +49,6 @@ public class ClientController {
             log.warn("client.profile.update.validation user={} errors={}", principal.getName(), br.getErrorCount());
             return "redirect:/clients/me";
         }
-        // форсуємо оновлення лише свого профілю
         form.setEmail(principal.getName());
         var updated = clientService.updateClientByEmail(principal.getName(), form);
         ra.addFlashAttribute("form", updated);
@@ -69,5 +68,31 @@ public class ClientController {
         ra.addFlashAttribute("info", "Акаунт видалено");
         log.warn("client.profile.deleted user={}", principal.getName());
         return "redirect:/login?deleted";
+    }
+
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    @GetMapping("/manage")
+    public String manage(Model model) {
+        model.addAttribute("clients", clientService.getAllClients());
+        log.info("clients.manage.view");
+        return "clients/manage";
+    }
+
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    @PostMapping("/{email}/block")
+    public String block(@PathVariable String email, RedirectAttributes ra) {
+        clientService.blockByEmail(email);
+        log.warn("client.block email={}", email);
+        ra.addFlashAttribute("success", "Клієнта заблоковано");
+        return "redirect:/clients/manage";
+    }
+
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    @PostMapping("/{email}/unblock")
+    public String unblock(@PathVariable String email, RedirectAttributes ra) {
+        clientService.unblockByEmail(email);
+        log.info("client.unblock email={}", email);
+        ra.addFlashAttribute("success", "Клієнта розблоковано");
+        return "redirect:/clients/manage";
     }
 }

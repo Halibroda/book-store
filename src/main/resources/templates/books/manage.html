@@ -1,0 +1,43 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="uk">
+<head th:replace="~{fragments/_head :: head(#{books.manage})}"></head>
+<body>
+<div th:replace="~{fragments/_navbar :: navbar}"></div>
+<main class="container">
+    <h1 th:text="#{books.manage}">Книги</h1>
+
+    <div class="mb-2">
+        <a class="btn" th:href="@{/book/new}" th:text="#{books.add}">Додати книгу</a>
+    </div>
+
+    <div th:if="${param.created}" class="alert alert-success" th:text="#{flash.created}">Створено</div>
+    <div th:if="${param.updated}" class="alert alert-success" th:text="#{flash.updated}">Оновлено</div>
+    <div th:if="${param.deleted}" class="alert alert-info"    th:text="#{books.deleted}">Видалено</div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th><th th:text="#{books.name}">Назва</th><th th:text="#{books.author}">Автор</th>
+            <th th:text="#{books.price}">Ціна</th><th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="b : ${books}">
+            <td th:text="${b.id}">1</td>
+            <td th:text="${b.name}">Назва</td>
+            <td th:text="${b.author}">Автор</td>
+            <td th:text="${#numbers.formatDecimal(b.price,1,'COMMA',2,'POINT')}">0.00</td>
+            <td class="actions">
+                <a class="btn btn--ghost" th:href="@{|/book/${b.name}/edit|}" th:text="#{common.edit}">Edit</a>
+                <form th:action="@{|/book/${b.name}/delete|}" method="post" class="inline"
+                      th:onsubmit="|return confirm('#{books.delete.confirm}')|">
+                    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button class="btn btn--danger" th:text="#{common.delete}">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

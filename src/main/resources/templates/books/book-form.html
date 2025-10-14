@@ -1,0 +1,72 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="uk">
+<head th:replace="~{fragments/_head :: head(#{books.form})}"></head>
+<body>
+<div th:replace="~{fragments/_navbar :: navbar}"></div>
+<main class="container container--narrow">
+    <h1 th:text="${book.id} != null ? #{books.edit} : #{books.add}">Книга</h1>
+
+    <form th:action="${originalName} != null ? @{|/book/${originalName}/edit|} : @{/book}"
+          th:object="${book}" method="post" class="form">
+        <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <div class="form__row">
+            <label th:text="#{books.name}">Назва</label>
+            <input th:field="*{name}" required/>
+            <p class="form__error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">err</p>
+        </div>
+
+        <div class="form__row">
+            <label th:text="#{books.genre}">Жанр</label>
+            <input th:field="*{genre}" required/>
+        </div>
+
+        <div class="form__row">
+            <label th:text="#{books.author}">Автор</label>
+            <input th:field="*{author}" required/>
+        </div>
+
+        <div class="form__row">
+            <label th:text="#{books.price}">Ціна</label>
+            <input type="number" step="0.01" min="0.01" th:field="*{price}" required/>
+            <p class="form__error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">err</p>
+        </div>
+
+        <div class="form__row">
+            <label th:text="#{books.pages}">Сторінок</label>
+            <input type="number" min="1" th:field="*{pages}"/>
+        </div>
+
+        <div class="form__row">
+            <label th:text="#{books.publicationDate}">Дата публікації</label>
+            <input type="date" th:field="*{publicationDate}"/>
+        </div>
+
+        <div class="form__row">
+            <label th:text="#{books.language}">Мова</label>
+            <input th:field="*{language}" placeholder="EN/UK/..."/>
+        </div>
+
+        <div class="form__row">
+            <label th:text="#{books.ageGroup}">Вікова група</label>
+            <input th:field="*{ageGroup}" placeholder="ADULT/TEEN/KIDS"/>
+        </div>
+
+        <div class="form__row">
+            <label th:text="#{books.characteristics}">Характеристики</label>
+            <textarea th:field="*{characteristics}"></textarea>
+        </div>
+
+        <div class="form__row">
+            <label th:text="#{books.description}">Опис</label>
+            <textarea th:field="*{description}" maxlength="2000"></textarea>
+        </div>
+
+        <div class="form__actions">
+            <button class="btn" th:text="#{common.save}">Зберегти</button>
+            <a class="btn btn--ghost" th:href="@{/book/manage}" th:text="#{common.cancel}">Назад</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

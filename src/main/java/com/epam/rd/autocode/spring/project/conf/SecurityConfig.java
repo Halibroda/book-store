@@ -34,13 +34,19 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers("/auth/**", "/order/**", "/clients/**")
+                .ignoringRequestMatchers("/auth/**", "/order/**", "/clients/**", "/book/**")
             )
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/Book.png", "/favicon.ico").permitAll()
                 .requestMatchers("/", "/login", "/register", "/error/**", "/__i18n/**").permitAll()
                 .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/book/manage", "/book/*/edit").hasRole("EMPLOYEE")
+//                .requestMatchers("/book", "/book/*/edit", "/book/*/delete").hasRole("EMPLOYEE")
+                .requestMatchers("/clients/manage").hasRole("EMPLOYEE")
+//                .requestMatchers("/clients/*/block", "/clients/*/unblock").hasRole("EMPLOYEE")
+                .requestMatchers("/clients/me").hasRole("CLIENT")
+//                .requestMatchers("/clients/me", "/clients/me/delete").hasRole("CLIENT")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(new JwtAuthFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
