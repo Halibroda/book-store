@@ -30,7 +30,7 @@ public class HomeController {
                        @RequestParam(required = false) BigDecimal minPrice,
                        @RequestParam(required = false) BigDecimal maxPrice,
                        @RequestParam(required = false, name = "search") String search,
-                       @PageableDefault(size = 12, sort = "name") Pageable pageable,
+                       @PageableDefault(size = 8, sort = "name") Pageable pageable,
                        Model model) {
 
         Page<BookDTO> page = bookService.findBooks(genre, language, ageGroup, minPrice, maxPrice, search, pageable);

@@ -75,9 +75,9 @@
            th:each="i : ${#numbers.sequence(0, page.totalPages-1)}"
            th:classappend="${i} == ${page.number} ? 'active' : ''"
            th:text="${i + 1}"
-           th:href="@{/(page=${i},size=${page.size},sort=${#request.getParameter('sort')},
-                    genre=${params.genre},language=${params.language},ageGroup=${params.ageGroup},
-                    minPrice=${params.minPrice},maxPrice=${params.maxPrice},search=${params.search})}">
+           th:href="@{/(page=${i},size=${page.size},
+                  genre=${params.genre},language=${params.language},ageGroup=${params.ageGroup},
+                  minPrice=${params.minPrice},maxPrice=${params.maxPrice},search=${params.search})}">
             1
         </a>
     </div>
