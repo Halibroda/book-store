@@ -1761,3 +1761,76 @@ org.thymeleaf.exceptions.TemplateInputException: Error resolving template [clien
 2025-10-14T12:28:57.045+03:00 DEBUG 1884 --- [http-nio-8084-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /css/app.css
 2025-10-14T12:28:57.092+03:00 DEBUG 1884 --- [http-nio-8084-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /Book-c7297f9ec9da61dc3e822de0aaa232fe.png
 2025-10-14T12:28:57.096+03:00 DEBUG 1884 --- [http-nio-8084-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /Book-c7297f9ec9da61dc3e822de0aaa232fe.png
+2025-10-14T12:29:35.702+03:00  INFO 1884 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-14T12:29:35.707+03:00  INFO 1884 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-14T12:29:35.708+03:00  INFO 1884 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-10-14T12:29:37.535+03:00  INFO 16216 --- [main] .s.p.BookStoreServiceSolutionApplication : Starting BookStoreServiceSolutionApplication using Java 23.0.2 with PID 16216 (C:\Users\galib\workspace\book-store-service-task\target\classes started by galib in C:\Users\galib\workspace\book-store-service-task)
+2025-10-14T12:29:37.536+03:00  INFO 16216 --- [main] .s.p.BookStoreServiceSolutionApplication : No active profile set, falling back to 1 default profile: "default"
+2025-10-14T12:29:38.025+03:00  INFO 16216 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-14T12:29:38.076+03:00  INFO 16216 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 45 ms. Found 4 JPA repository interfaces.
+2025-10-14T12:29:38.457+03:00  INFO 16216 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8084 (http)
+2025-10-14T12:29:38.464+03:00  INFO 16216 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-10-14T12:29:38.464+03:00  INFO 16216 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-10-14T12:29:38.504+03:00  INFO 16216 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-10-14T12:29:38.504+03:00  INFO 16216 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 930 ms
+2025-10-14T12:29:38.526+03:00  INFO 16216 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-14T12:29:38.668+03:00  INFO 16216 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:bookdb user=SA
+2025-10-14T12:29:38.671+03:00  INFO 16216 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-14T12:29:38.680+03:00  INFO 16216 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:bookdb'
+2025-10-14T12:29:38.767+03:00  INFO 16216 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-14T12:29:38.806+03:00  INFO 16216 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-10-14T12:29:38.827+03:00  INFO 16216 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-10-14T12:29:38.985+03:00  INFO 16216 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-14T12:29:39.698+03:00  INFO 16216 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-14T12:29:39.739+03:00  INFO 16216 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-14T12:29:40.162+03:00  WARN 16216 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-14T12:29:40.219+03:00  INFO 16216 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-10-14T12:29:40.363+03:00  INFO 16216 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4199761d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3ca564aa, org.springframework.security.web.context.SecurityContextHolderFilter@452d6fd, org.springframework.security.web.header.HeaderWriterFilter@2e7563f6, org.springframework.web.filter.CorsFilter@3cd758be, org.springframework.security.web.csrf.CsrfFilter@514c6ca0, com.epam.rd.autocode.spring.project.security.JwtAuthFilter@562ec518, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@ccea4be, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@40f931ec, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5c8d685e, org.springframework.security.web.session.SessionManagementFilter@1c3400df, org.springframework.security.web.access.ExceptionTranslationFilter@10c1682b, org.springframework.security.web.access.intercept.AuthorizationFilter@5fa3df]
+2025-10-14T12:29:40.570+03:00  INFO 16216 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8084 (http) with context path ''
+2025-10-14T12:29:40.576+03:00  INFO 16216 --- [main] .s.p.BookStoreServiceSolutionApplication : Started BookStoreServiceSolutionApplication in 3.345 seconds (process running for 3.92)
+2025-10-14T12:29:42.829+03:00  INFO 16216 --- [http-nio-8084-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-14T12:29:42.829+03:00  INFO 16216 --- [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-10-14T12:29:42.830+03:00  INFO 16216 --- [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-10-14T12:29:42.910+03:00  INFO 16216 --- [http-nio-8084-exec-1] c.e.r.a.s.p.controller.AuthController    : auth.logout.done
+2025-10-14T12:29:44.311+03:00  INFO 16216 --- [http-nio-8084-exec-6] c.e.r.a.s.p.controller.AuthController    : auth.login request email=client1@example.com
+2025-10-14T12:29:44.702+03:00  INFO 16216 --- [http-nio-8084-exec-6] c.e.r.a.s.p.controller.AuthController    : auth.login.success email=client1@example.com
+2025-10-14T12:29:48.393+03:00  INFO 16216 --- [http-nio-8084-exec-3] c.e.r.a.s.p.controller.OrderController   : order.cart.add bookId=6 qty=4 user=client1@example.com
+2025-10-14T12:29:48.450+03:00  INFO 16216 --- [http-nio-8084-exec-2] c.e.r.a.s.p.controller.OrderController   : order.cart.view user=client1@example.com
+2025-10-14T12:29:53.602+03:00  INFO 16216 --- [http-nio-8084-exec-3] c.e.r.a.s.p.controller.OrderController   : order.cart.add bookId=1 qty=4 user=client1@example.com
+2025-10-14T12:29:53.637+03:00  INFO 16216 --- [http-nio-8084-exec-2] c.e.r.a.s.p.controller.OrderController   : order.cart.view user=client1@example.com
+2025-10-14T12:33:10.905+03:00  INFO 16216 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-14T12:33:10.910+03:00  INFO 16216 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-14T12:33:10.911+03:00  INFO 16216 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-10-14T12:33:13.991+03:00  INFO 1764 --- [main] .s.p.BookStoreServiceSolutionApplication : Starting BookStoreServiceSolutionApplication using Java 23.0.2 with PID 1764 (C:\Users\galib\workspace\book-store-service-task\target\classes started by galib in C:\Users\galib\workspace\book-store-service-task)
+2025-10-14T12:33:13.993+03:00  INFO 1764 --- [main] .s.p.BookStoreServiceSolutionApplication : No active profile set, falling back to 1 default profile: "default"
+2025-10-14T12:33:14.480+03:00  INFO 1764 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-14T12:33:14.530+03:00  INFO 1764 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 46 ms. Found 4 JPA repository interfaces.
+2025-10-14T12:33:14.911+03:00  INFO 1764 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8084 (http)
+2025-10-14T12:33:14.918+03:00  INFO 1764 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-10-14T12:33:14.918+03:00  INFO 1764 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-10-14T12:33:14.959+03:00  INFO 1764 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-10-14T12:33:14.959+03:00  INFO 1764 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 928 ms
+2025-10-14T12:33:14.980+03:00  INFO 1764 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-14T12:33:15.126+03:00  INFO 1764 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:bookdb user=SA
+2025-10-14T12:33:15.129+03:00  INFO 1764 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-14T12:33:15.139+03:00  INFO 1764 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:bookdb'
+2025-10-14T12:33:15.226+03:00  INFO 1764 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-14T12:33:15.263+03:00  INFO 1764 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-10-14T12:33:15.284+03:00  INFO 1764 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-10-14T12:33:15.437+03:00  INFO 1764 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-14T12:33:16.141+03:00  INFO 1764 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-14T12:33:16.179+03:00  INFO 1764 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-14T12:33:16.576+03:00  WARN 1764 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-14T12:33:16.632+03:00  INFO 1764 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-10-14T12:33:16.774+03:00  INFO 1764 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@452d6fd, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@38dc1c50, org.springframework.security.web.context.SecurityContextHolderFilter@51d6c42d, org.springframework.security.web.header.HeaderWriterFilter@514c6ca0, org.springframework.web.filter.CorsFilter@ccea4be, org.springframework.security.web.csrf.CsrfFilter@6eff05e7, com.epam.rd.autocode.spring.project.security.JwtAuthFilter@40f931ec, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1104cf3a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@85fd4b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@528ef230, org.springframework.security.web.session.SessionManagementFilter@40ef385f, org.springframework.security.web.access.ExceptionTranslationFilter@7bdaf563, org.springframework.security.web.access.intercept.AuthorizationFilter@1c3400df]
+2025-10-14T12:33:16.983+03:00  INFO 1764 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8084 (http) with context path ''
+2025-10-14T12:33:16.988+03:00  INFO 1764 --- [main] .s.p.BookStoreServiceSolutionApplication : Started BookStoreServiceSolutionApplication in 3.285 seconds (process running for 3.738)
+2025-10-14T12:33:20.725+03:00  INFO 1764 --- [http-nio-8084-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-14T12:33:20.725+03:00  INFO 1764 --- [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-10-14T12:33:20.726+03:00  INFO 1764 --- [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-10-14T12:33:20.801+03:00  INFO 1764 --- [http-nio-8084-exec-1] c.e.r.a.s.p.controller.AuthController    : auth.logout.done
+2025-10-14T12:33:24.711+03:00  INFO 1764 --- [http-nio-8084-exec-5] c.e.r.a.s.p.controller.AuthController    : auth.login request email=client11@example.com
+2025-10-14T12:33:24.937+03:00  WARN 1764 --- [http-nio-8084-exec-5] c.e.r.a.s.p.e.GlobalExceptionHandler     : auth.login.failure reason=BadCredentialsException
+2025-10-14T12:34:02.563+03:00  INFO 1764 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-14T12:34:02.568+03:00  INFO 1764 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-14T12:34:02.569+03:00  INFO 1764 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

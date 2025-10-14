@@ -20,6 +20,15 @@
             <input id="password" name="password" type="password" autocomplete="current-password" required/>
         </div>
 
+        <div class="form__row">
+            <p class="form__error"
+               th:if="${loginError}"
+               th:text="${loginError}">Incorrect email or password</p>
+            <p class="form__error"
+               th:if="${param.error} and ${loginError} == null"
+               th:text="#{auth.badCredentials}">Bad Credentials</p>
+        </div>
+
         <div class="form__actions">
             <button class="btn" th:text="#{nav.login}">Log in</button>
         </div>
