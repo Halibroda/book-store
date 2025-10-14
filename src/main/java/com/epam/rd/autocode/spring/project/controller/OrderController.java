@@ -6,6 +6,8 @@ import com.epam.rd.autocode.spring.project.service.BookService;
 import com.epam.rd.autocode.spring.project.service.ClientService;
 import com.epam.rd.autocode.spring.project.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 @RequestMapping("/order")
 public class OrderController {
+    private static final Logger log = LoggerFactory.getLogger(OrderController.class);
 
     private final OrderService orderService;
     private final ClientService clientService;
@@ -25,6 +28,7 @@ public class OrderController {
     @PreAuthorize("hasRole('CLIENT')")
     @GetMapping
     public String myOrders(Model model, Principal principal) {
+        log.info("order.my list user={}", principal.getName());
         var orders = orderService.getOrdersByClient(principal.getName());
         model.addAttribute("orders", orders);
         return "orders/list";
@@ -33,6 +37,7 @@ public class OrderController {
     @PreAuthorize("hasRole('EMPLOYEE')")
     @GetMapping("/manage")
     public String manage(Model model, Principal principal) {
+        log.info("order.manage incoming user={}", principal.getName());
         var incoming = orderService.getIncomingOrders();
         var mine = orderService.getOrdersByEmployee(principal.getName());
         model.addAttribute("incoming", incoming);
@@ -43,6 +48,7 @@ public class OrderController {
     @PreAuthorize("hasRole('EMPLOYEE')")
     @PostMapping("/{id}/confirm")
     public String confirm(@PathVariable Long id, Principal principal) {
+        log.info("order.confirm id={} by={}", id, principal.getName());
         orderService.confirmOrder(id, principal.getName());
         return "redirect:/order/manage?confirmed";
     }
@@ -50,6 +56,7 @@ public class OrderController {
     @GetMapping("/cart")
     @PreAuthorize("hasRole('CLIENT')")
     public String cart(Model model, Principal principal) {
+        log.info("order.cart.view user={}", principal.getName());
         var orders = orderService.getOrdersByClient(principal.getName());
         if (orders.isEmpty()) {
             model.addAttribute("order", new OrderDTO());
@@ -79,6 +86,7 @@ public class OrderController {
     public String updateQty(@RequestParam Long bookId,
                             @RequestParam Integer quantity,
                             Principal principal) {
+        log.info("order.cart.update bookId={} qty={} user={}", bookId, quantity, principal.getName());
         var client = clientService.getClientByEmail(principal.getName());
         var orderOpt = orderService.getOrdersByClient(principal.getName()).stream().findFirst();
         if (orderOpt.isEmpty()) return "redirect:/order/cart";
@@ -104,6 +112,7 @@ public class OrderController {
     @PreAuthorize("hasRole('CLIENT')")
     @PostMapping("/cart/remove")
     public String removeItem(@RequestParam Long bookId, Principal principal) {
+        log.info("order.cart.remove bookId={} user={}", bookId, principal.getName());
         var client = clientService.getClientByEmail(principal.getName());
         var orderOpt = orderService.getOrdersByClient(principal.getName()).stream().findFirst();
         if (orderOpt.isEmpty()) return "redirect:/order/cart";
@@ -120,6 +129,7 @@ public class OrderController {
     @PreAuthorize("hasRole('CLIENT')")
     @PostMapping("/cart/clear")
     public String clearCart(Principal principal) {
+        log.info("order.cart.clear user={}", principal.getName());
         var client = clientService.getClientByEmail(principal.getName());
         var orderOpt = orderService.getOrdersByClient(principal.getName()).stream().findFirst();
         if (orderOpt.isEmpty()) return "redirect:/order/cart";
@@ -136,6 +146,7 @@ public class OrderController {
     public String addToCart(@RequestParam Long bookId,
                             @RequestParam(required = false, defaultValue = "1") Integer quantity,
                             Principal principal) {
+        log.info("order.cart.add bookId={} qty={} user={}", bookId, quantity, principal.getName());
         var client = clientService.getClientByEmail(principal.getName());
         var existing = orderService.getOrdersByClient(principal.getName()).stream().findFirst();
 
@@ -167,6 +178,7 @@ public class OrderController {
     @PreAuthorize("hasRole('CLIENT')")
     @PostMapping("/create")
     public String createOrUpdateForClient(@ModelAttribute OrderDTO order, Principal principal) {
+        log.info("order.saveDraft clientUser={}", principal.getName());
         var client = clientService.getClientByEmail(principal.getName());
         order.setClientId(client.getId());
         orderService.saveDraft(order);
@@ -176,6 +188,7 @@ public class OrderController {
     @PreAuthorize("hasRole('EMPLOYEE')")
     @PostMapping("/add")
     public String addForEmployee(@ModelAttribute OrderDTO order) {
+        log.info("order.add.byEmployee");
         orderService.addOrder(order);
         return "redirect:/order/manage?created";
     }
@@ -183,6 +196,7 @@ public class OrderController {
     @PreAuthorize("hasRole('CLIENT')")
     @PostMapping("/cart/save")
     public String saveDraft(@ModelAttribute OrderDTO order, Principal principal) {
+        log.info("order.cart.save user={}", principal.getName());
         var client = clientService.getClientByEmail(principal.getName());
         order.setClientId(client.getId());
         orderService.saveDraft(order);
@@ -192,6 +206,7 @@ public class OrderController {
     @PreAuthorize("hasRole('CLIENT')")
     @PostMapping("/cart/submit")
     public String submit(@ModelAttribute OrderDTO order, Principal principal) {
+        log.info("order.submit user={}", principal.getName());
         var client = clientService.getClientByEmail(principal.getName());
         order.setClientId(client.getId());
         orderService.submit(order);
