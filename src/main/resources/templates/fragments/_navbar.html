@@ -12,6 +12,8 @@
         <a sec:authorize="hasRole('CLIENT')" th:href="@{/order}" th:text="#{orders.my}">My orders</a>
 
         <a sec:authorize="hasRole('EMPLOYEE')" th:href="@{/book/new}" th:text="#{books.add}">Add book</a>
+        <a sec:authorize="hasRole('EMPLOYEE')" th:href="@{/book/manage}" th:text="#{books.manage}">Manage books</a>
+        <a sec:authorize="hasRole('EMPLOYEE')" th:href="@{/clients/manage}" th:text="#{clients.manage}">Customers</a>
         <a sec:authorize="hasRole('EMPLOYEE')" th:href="@{/order/manage}" th:text="#{orders.manage}">Manage orders</a>
 
         <a th:classappend="${#locale.language=='en'} ? 'active' : ''" th:href="@{?lang=en}">EN</a>

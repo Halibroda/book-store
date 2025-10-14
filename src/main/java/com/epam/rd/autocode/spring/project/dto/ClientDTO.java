@@ -24,4 +24,7 @@ public class ClientDTO {
     @Digits(integer = 10, fraction = 2)
     @PositiveOrZero
     private BigDecimal balance;
+
+    @NotNull
+    private Boolean enabled;
 }
