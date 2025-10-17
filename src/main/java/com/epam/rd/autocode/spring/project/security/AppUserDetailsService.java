@@ -35,7 +35,7 @@ public class AppUserDetailsService implements UserDetailsService {
     }
 
     private boolean enabledOrDefault(Boolean enabled) {
-        return enabled == null || enabled; // null => true
+        return enabled == null || enabled;
     }
 
     private UserDetails toDetails(Employee e, List<? extends GrantedAuthority> auth) {
